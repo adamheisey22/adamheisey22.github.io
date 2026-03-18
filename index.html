@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adam Heisey — Data Science & Research Consulting</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #111820;
+    --paper: #f7f5f0;
+    --accent: #2a6b5a;
+    --accent-light: #3a8b72;
+    --accent-wash: rgba(42,107,90,0.06);
+    --warm: #c8553d;
+    --muted: #5f6b7a;
+    --divider: #ddd8ce;
+    --card: #fffefa;
+    --dark-bg: #131a24;
+    --dark-fg: #e8e4dc;
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'Source Sans 3', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 17px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(247,245,240,0.88);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--divider);
+    padding: 0 2.5rem;
+    height: 58px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  nav ul { list-style: none; display: flex; gap: 2.2rem; }
+  nav a {
+    text-decoration: none; color: var(--ink);
+    font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 7rem 2.5rem 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; top: 10%; right: -5%;
+    width: 550px; height: 550px;
+    background: radial-gradient(circle, rgba(42,107,90,0.07) 0%, transparent 65%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 760px; position: relative; z-index: 1; }
+
+  .hero-tag {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.6rem;
+    display: flex; align-items: center; gap: 0.7rem;
+  }
+  .hero-tag::before {
+    content: ''; width: 32px; height: 1.5px;
+    background: var(--accent);
+  }
+
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.6rem, 5vw, 4.2rem);
+    line-height: 1.15;
+    font-weight: 400;
+    margin-bottom: 1.8rem;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-body {
+    font-size: 1.08rem;
+    color: var(--muted);
+    max-width: 580px;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+    line-height: 1.85;
+  }
+
+  .cta-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.85rem 2.2rem;
+    font-family: var(--sans); font-size: 0.82rem; font-weight: 600;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    text-decoration: none; border-radius: 3px;
+    transition: all 0.25s; cursor: pointer; border: none;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-light); transform: translateY(-1px); }
+  .btn-outline { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+  .btn-outline:hover { background: var(--ink); color: var(--paper); }
+
+  /* ── SECTIONS ── */
+  section { padding: 6rem 2.5rem; }
+  .container { max-width: 1060px; margin: 0 auto; }
+  .section-label {
+    font-family: var(--mono); font-size: 0.7rem;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 0.8rem;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    line-height: 1.2; margin-bottom: 1rem;
+  }
+  .section-sub {
+    color: var(--muted); font-weight: 300;
+    font-size: 1.05rem; max-width: 620px;
+    margin-bottom: 3rem;
+  }
+
+  /* ── DOMAINS ── */
+  #domains {
+    background: var(--dark-bg);
+    color: var(--dark-fg);
+    border-top: 3px solid var(--accent);
+  }
+  #domains .section-label { color: var(--accent-light); }
+  #domains .section-sub { color: rgba(232,228,220,0.6); }
+
+  .domains-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.8rem;
+  }
+  .domain-card {
+    padding: 2.2rem 2rem;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px;
+    background: rgba(255,255,255,0.03);
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .domain-card:hover {
+    border-color: var(--accent);
+    background: rgba(42,107,90,0.06);
+  }
+  .domain-icon {
+    font-size: 1.6rem;
+    margin-bottom: 1.2rem;
+    display: block;
+  }
+  .domain-card h3 {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    margin-bottom: 0.7rem;
+    font-weight: 400;
+    color: #fff;
+  }
+  .domain-card p {
+    font-size: 0.9rem;
+    line-height: 1.75;
+    color: rgba(232,228,220,0.65);
+    font-weight: 300;
+  }
+
+  /* ── SERVICES ── */
+  #services { background: var(--card); border-top: 1px solid var(--divider); border-bottom: 1px solid var(--divider); }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.8rem;
+  }
+  .service-card {
+    padding: 2rem;
+    border: 1px solid var(--divider);
+    border-radius: 3px;
+    background: var(--paper);
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .service-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.05);
+  }
+  .service-num {
+    font-family: var(--mono); font-size: 0.7rem;
+    color: var(--accent); margin-bottom: 0.8rem;
+  }
+  .service-card h3 {
+    font-family: var(--sans);
+    font-size: 1rem; font-weight: 600;
+    margin-bottom: 0.6rem;
+  }
+  .service-card p {
+    color: var(--muted); font-size: 0.88rem;
+    line-height: 1.7; font-weight: 300;
+  }
+
+  /* ── TOOLS ── */
+  .tools-strip {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+    margin-top: 2.5rem; padding-top: 2rem;
+    border-top: 1px solid var(--divider);
+  }
+  .tool-tag {
+    font-family: var(--mono); font-size: 0.7rem;
+    padding: 0.35rem 0.8rem;
+    background: var(--dark-bg); color: var(--dark-fg);
+    border-radius: 2px; letter-spacing: 0.03em;
+  }
+
+  /* ── EXPERIENCE ── */
+  .timeline { max-width: 680px; }
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 2rem;
+    padding: 1.8rem 0;
+    border-bottom: 1px solid var(--divider);
+    align-items: start;
+  }
+  .timeline-item:last-child { border-bottom: none; }
+  .tl-date {
+    font-family: var(--mono); font-size: 0.72rem;
+    color: var(--muted); letter-spacing: 0.03em;
+    padding-top: 0.2rem;
+  }
+  .tl-content h3 {
+    font-size: 1rem; font-weight: 600;
+    margin-bottom: 0.15rem;
+  }
+  .tl-org {
+    font-size: 0.88rem; color: var(--accent);
+    font-weight: 500; margin-bottom: 0.4rem;
+  }
+  .tl-content p {
+    font-size: 0.86rem; color: var(--muted);
+    font-weight: 300; line-height: 1.7;
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    background: var(--card);
+    border-top: 1px solid var(--divider);
+    border-bottom: 1px solid var(--divider);
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .about-text p {
+    margin-bottom: 1.2rem;
+    font-weight: 300;
+    line-height: 1.85;
+  }
+  .about-text p:first-child { font-weight: 400; }
+
+  .credential-list { list-style: none; }
+  .credential-list li {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--divider);
+    display: flex; gap: 1rem; align-items: flex-start;
+  }
+  .credential-list li:last-child { border-bottom: none; }
+  .cred-badge {
+    width: 38px; height: 38px; flex-shrink: 0;
+    background: var(--dark-bg); border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent-light);
+    font-family: var(--mono); font-size: 0.65rem; font-weight: 500;
+  }
+  .cred-text h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.1rem; }
+  .cred-text p { font-size: 0.8rem; color: var(--muted); font-weight: 300; }
+
+  /* ── CONTACT ── */
+  #contact { text-align: center; padding: 7rem 2.5rem; }
+  #contact .section-sub { margin-left: auto; margin-right: auto; }
+  .contact-links {
+    display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap;
+    margin-top: 1.5rem;
+  }
+  .contact-link {
+    font-family: var(--mono); font-size: 0.78rem;
+    color: var(--ink); text-decoration: none;
+    padding: 0.65rem 1.4rem;
+    border: 1px solid var(--divider); border-radius: 2px;
+    transition: all 0.2s;
+  }
+  .contact-link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-wash);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center; padding: 2rem;
+    border-top: 1px solid var(--divider);
+    font-size: 0.72rem; color: var(--muted);
+    font-family: var(--mono); letter-spacing: 0.04em;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav ul { gap: 1.2rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .timeline-item { grid-template-columns: 1fr; gap: 0.3rem; }
+    section { padding: 4rem 1.5rem; }
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-inner > * { animation: fadeUp 0.65s ease-out both; }
+  .hero-tag { animation-delay: 0.1s; }
+  .hero h1 { animation-delay: 0.2s; }
+  .hero-body { animation-delay: 0.32s; }
+  .cta-row { animation-delay: 0.46s; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Adam Heisey</div>
+  <ul>
+    <li><a href="#domains">Domains</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Research · Health · Energy</div>
+    <h1>Data science for <em>research that matters</em></h1>
+    <p class="hero-body">I'm an economist and data scientist with deep experience in healthcare analytics and energy research. I help research teams, policy organizations, and mission-driven companies turn complex data into rigorous, actionable insight.</p>
+    <div class="cta-row">
+      <a href="#contact" class="btn btn-primary">Start a Conversation →</a>
+      <a href="#domains" class="btn btn-outline">See My Work</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── DOMAINS ── -->
+<section id="domains">
+  <div class="container">
+    <div class="section-label">Domain Expertise</div>
+    <h2 class="section-title" style="color:#fff;">Where I Work</h2>
+    <p class="section-sub">Years of hands-on experience across two of the most data-intensive sectors in the public and private sphere.</p>
+
+    <div class="domains-grid">
+      <div class="domain-card">
+        <span class="domain-icon">⚡</span>
+        <h3>Energy &amp; Natural Resources</h3>
+        <p>Energy market modeling, forecasting, regulatory analysis, and policy research. Former roles at the U.S. Energy Information Administration and Federal Energy Regulatory Commission, working with large-scale energy production, consumption, and pricing datasets.</p>
+      </div>
+      <div class="domain-card">
+        <span class="domain-icon">🏥</span>
+        <h3>Healthcare &amp; Health Systems</h3>
+        <p>Clinical outcomes analysis, operational analytics, and population health research. Experience at Intermountain Healthcare building statistical models and analytical frameworks for one of the nation's leading integrated health systems.</p>
+      </div>
+      <div class="domain-card">
+        <span class="domain-icon">📊</span>
+        <h3>Public Policy &amp; Government</h3>
+        <p>Federal data programs, survey methodology, econometric policy evaluation, and program impact assessment. Background spanning the Social Security Administration, federal energy agencies, and international development through the Peace Corps.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES ── -->
+<section id="services">
+  <div class="container">
+    <div class="section-label">What I Offer</div>
+    <h2 class="section-title">Research &amp; Consulting Services</h2>
+    <p class="section-sub">Flexible, project-based engagements for teams that need rigorous analytical support without a full-time hire.</p>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-num">01</div>
+        <h3>Statistical Modeling &amp; Econometrics</h3>
+        <p>Causal inference, regression analysis, time series forecasting, and experimental design grounded in applied economics methodology.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-num">02</div>
+        <h3>Research Data Analysis</h3>
+        <p>End-to-end analytical support for research projects — from study design and data wrangling through analysis, visualization, and manuscript-ready outputs.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-num">03</div>
+        <h3>Predictive Analytics &amp; ML</h3>
+        <p>Production-ready machine learning models for classification, forecasting, and risk scoring, with clear documentation and reproducible pipelines.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-num">04</div>
+        <h3>Data Strategy &amp; Pipeline Design</h3>
+        <p>Analytics architecture audits, ETL workflow design, automated reporting, and data quality frameworks for growing teams.</p>
+      </div>
+    </div>
+
+    <div class="tools-strip">
+      <span class="tool-tag">Python</span>
+      <span class="tool-tag">R</span>
+      <span class="tool-tag">SQL</span>
+      <span class="tool-tag">Stata</span>
+      <span class="tool-tag">SAS</span>
+      <span class="tool-tag">scikit-learn</span>
+      <span class="tool-tag">Pandas</span>
+      <span class="tool-tag">Tableau</span>
+      <span class="tool-tag">Power BI</span>
+      <span class="tool-tag">AWS</span>
+      <span class="tool-tag">GCP</span>
+      <span class="tool-tag">Excel / VBA</span>
+      <span class="tool-tag">Git</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── EXPERIENCE ── -->
+<section id="experience">
+  <div class="container">
+    <div class="section-label">Background</div>
+    <h2 class="section-title">Professional Experience</h2>
+    <p class="section-sub">A career spanning federal research agencies, healthcare systems, and international development.</p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="tl-date">Current</div>
+        <div class="tl-content">
+          <h3>Economist &amp; Data Scientist</h3>
+          <div class="tl-org">U.S. Energy Information Administration (EIA)</div>
+          <p>Energy data analysis, forecasting models, and statistical research supporting national energy policy and public information programs.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">Previous</div>
+        <div class="tl-content">
+          <h3>Senior Statistical Data Analyst</h3>
+          <div class="tl-org">Intermountain Healthcare</div>
+          <p>Statistical modeling and outcomes analysis for one of the largest not-for-profit health systems in the western United States.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">Previous</div>
+        <div class="tl-content">
+          <h3>Analyst</h3>
+          <div class="tl-org">Federal Energy Regulatory Commission (FERC)</div>
+          <p>Regulatory and economic analysis supporting federal oversight of energy markets and infrastructure.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">Previous</div>
+        <div class="tl-content">
+          <h3>Analyst</h3>
+          <div class="tl-org">Social Security Administration</div>
+          <p>Data analysis and program support for one of the largest federal benefits programs.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">Previous</div>
+        <div class="tl-content">
+          <h3>Volunteer</h3>
+          <div class="tl-org">Peace Corps</div>
+          <p>International community development work — a formative experience in cross-cultural collaboration and working with constrained resources.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="container">
+    <div class="section-label">About</div>
+    <h2 class="section-title">Adam Heisey</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm a data scientist and economist based in Seattle with a career built at the intersection of research, public policy, and applied analytics. My work has spanned federal energy agencies, major healthcare systems, and social programs — always focused on using data to improve how organizations understand complex systems and make decisions.</p>
+        <p style="color: var(--muted);">I started consulting to make rigorous analytical methods accessible to research teams, nonprofits, and smaller organizations that need serious data science support on a project basis. Whether it's a health outcomes study, an energy market analysis, or a policy evaluation, I bring the same federal-grade rigor to every engagement.</p>
+      </div>
+      <div>
+        <ul class="credential-list">
+          <li>
+            <div class="cred-badge">MS</div>
+            <div class="cred-text">
+              <h4>M.S. Applied Economics</h4>
+              <p>Data Science Specialization · Marquette University</p>
+            </div>
+          </li>
+          <li>
+            <div class="cred-badge">EIA</div>
+            <div class="cred-text">
+              <h4>U.S. Energy Information Administration</h4>
+              <p>Economist & Data Scientist</p>
+            </div>
+          </li>
+          <li>
+            <div class="cred-badge">IH</div>
+            <div class="cred-text">
+              <h4>Intermountain Healthcare</h4>
+              <p>Senior Statistical Data Analyst</p>
+            </div>
+          </li>
+          <li>
+            <div class="cred-badge">PC</div>
+            <div class="cred-text">
+              <h4>Returned Peace Corps Volunteer</h4>
+              <p>International development & community engagement</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="container">
+    <div class="section-label">Get Started</div>
+    <h2 class="section-title">Let's talk about your research</h2>
+    <p class="section-sub">Whether you need statistical support for a study, a forecasting model, or a full analytical pipeline — reach out for a free 30-minute scoping call.</p>
+    <div class="cta-row" style="justify-content: center; margin-bottom: 2rem;">
+      <a href="mailto:adam@yourdomain.com" class="btn btn-primary">Email Me →</a>
+    </div>
+    <div class="contact-links">
+      <a href="https://www.linkedin.com/in/adam-r-heisey/" class="contact-link" target="_blank">LinkedIn</a>
+      <a href="#" class="contact-link">GitHub</a>
+      <a href="#" class="contact-link">Calendly</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 Adam Heisey · Data Science & Research Consulting · Seattle, WA
+</footer>
+
+</body>
+</html>
